@@ -11,6 +11,8 @@ public class Program {
 	final static int NUMBER_STRATEGIES = 200;
 	final static int CLEANING_SESSIONS = 100;
 	final static int MOVES_PER_SESSION = 100;
+	static double[] data = new double[200];
+	static int i = 0;
 	static List<Strategy> strategies = new ArrayList<Strategy>();
 	
 	public static void main(String[] args) {
@@ -19,12 +21,39 @@ public class Program {
 		double fitness = 0;
 		for (Strategy strategy : strategies) {
 			fitness = calculateFitness(strategy);
-			System.out.println("Fitness level: " + fitness);
+			System.out.print(fitness + ",");
 			strategy.setFitness(fitness);
+			storeData(fitness);
 		}
+		double mean = computeAverage();
+		System.out.println("\n" + "Mean: " + mean);
+		System.out.println("Standard Deviation: " + computeStdDev(mean));
 		System.out.println("Stop Execution");
+		Evolve evolve = new Evolve(strategies);
 	}
 	
+	private static double computeStdDev(double mean) {
+		double sum = 0;
+		for(int i=0; i < data.length; i++) {
+			double v = data[i] - mean;
+			sum += v*v;
+		}
+		return Math.sqrt( sum / (NUMBER_STRATEGIES - 1));
+	}
+
+	private static double computeAverage() {
+		double sum = 0;
+		for (int i = 0; i < data.length; i++) {
+			sum += data[i];
+		}
+		return sum / NUMBER_STRATEGIES;
+	}
+
+	private static void storeData(double fitness) {
+		data[i] = fitness;
+		i++;
+	}
+
 	private static double calculateFitness(Strategy strategy) {
 		int rating = 0;
 		for (int i = 0; i < CLEANING_SESSIONS; i++) {

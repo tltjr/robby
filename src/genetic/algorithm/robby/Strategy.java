@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Strategy {
+public class Strategy implements Comparable<Strategy> {
 
 	private List<Move> moves;
 	private double fitness;
@@ -45,5 +45,14 @@ public class Strategy {
 
 	public void setFitness(double fitness) {
 		this.fitness = fitness;
+	}
+	
+	public double getFitness() {
+		return fitness;
+	}
+
+	@Override
+	public int compareTo(Strategy arg0) {
+		return (int) (arg0.fitness - this.fitness);
 	}
 }
