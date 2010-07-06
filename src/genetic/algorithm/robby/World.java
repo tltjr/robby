@@ -1,26 +1,29 @@
 package genetic.algorithm.robby;
 
-import java.awt.Point;
-import java.util.List;
-
 public class World {
 
 	private Cans cans;
+	
+	public enum Square {
+		EMPTY, CAN, WALL
+	}
 	
 	public World(Cans cans) {
 		this.cans = cans;
 	}
 	
-	public int getSquareInfo(Point robby, int x, int y) {
-		int result = 0;
-		List<Integer> locations = cans.locations();
-		if(x == robby.x && y == robby.y) {
-			result+=2;
+	public Square squareStatus(int x, int y) {
+		if(x > 9 || y > 9) {
+			return Square.WALL;
 		}
-		if(locations.contains(getGridBasedIndex(x, y))){
-			result++;
+		if(checkCan(x, y)) {
+			return Square.CAN;
 		}
-		return result;
+		return Square.EMPTY;
+	}
+
+	private boolean checkCan(int x, int y) {
+		return cans.locations().contains(getGridBasedIndex(x, y));
 	}
 
 	private int getGridBasedIndex(int x, int y) {

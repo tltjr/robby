@@ -2,6 +2,7 @@ package genetic.algorithm.robby;
 
 
 import genetic.algorithm.robby.Robby.Move;
+import genetic.algorithm.robby.World.Square;
 
 import java.awt.Point;
 
@@ -27,7 +28,7 @@ public class TestNavigator extends TestCase {
 	public void testPickupCan() throws Exception {
 		Point p = new Point(0, 0);
 		when(mockRob.getPoint()).thenReturn(p);
-		when(mockWorld.getSquareInfo(p, 0, 0)).thenReturn(3);
+		when(mockWorld.squareStatus(0, 0)).thenReturn(Square.CAN);
 		nav.pickupCan();
 		assertEquals(nav.getScore(), 10);
 		verify(mockWorld).removeCans(0, 0);
@@ -37,7 +38,7 @@ public class TestNavigator extends TestCase {
 	public void testNegativePickupCan() throws Exception {
 		Point p = new Point(0, 0);
 		when(mockRob.getPoint()).thenReturn(p);
-		when(mockWorld.getSquareInfo(p, 0, 0)).thenReturn(2);
+		when(mockWorld.squareStatus(0, 0)).thenReturn(Square.EMPTY);
 		nav.pickupCan();
 		assertEquals(nav.getScore(), -1);
 	}
@@ -52,8 +53,15 @@ public class TestNavigator extends TestCase {
 	public void testMoveRobbyCallsPickupCan() throws Exception {
 		Point p = new Point(0, 0);
 		when(mockRob.getPoint()).thenReturn(p);
-		when(mockWorld.getSquareInfo(p, 0, 0)).thenReturn(2);
+		when(mockWorld.squareStatus(0, 0)).thenReturn(Square.EMPTY);
 		nav.moveRobby(Move.PICKUP);
 		assertEquals(nav.getScore(), -1);
+	}
+	
+	@Test
+	public void testWallPenalty() throws Exception {
+		when(mockRob.move(Move.EAST)).thenReturn(false);
+		nav.moveRobby(Move.EAST);
+		assertEquals(nav.getScore(), -5);
 	}
 }

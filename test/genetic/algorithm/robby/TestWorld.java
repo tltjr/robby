@@ -1,5 +1,7 @@
 package genetic.algorithm.robby;
 
+import genetic.algorithm.robby.World.Square;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +23,17 @@ public class TestWorld extends TestCase {
 	}
 
 	@Test
-	public void testGetSquareInfo() throws Exception {
+	public void testSquareStatus() throws Exception {
 		List<Integer> mockedLocations = createMockedLocations();
 		when(mockedCans.locations()).thenReturn(mockedLocations);
 		Point p = new Point(0,0);
-		assertEquals(world.getSquareInfo(p, 0, 0), 3);
-		assertEquals(world.getSquareInfo(p, 0, 1), 1);
-		assertEquals(world.getSquareInfo(p, 1, 1), 1);
-		assertEquals(world.getSquareInfo(p, 5, 1), 1);
-		assertEquals(world.getSquareInfo(p, 5, 2), 0);
+		assertEquals(world.squareStatus(0, 0), Square.CAN);
+		assertEquals(world.squareStatus(0, 1), Square.EMPTY);
+		assertEquals(world.squareStatus(1, 2), Square.CAN);
+		assertEquals(world.squareStatus(1, 1), Square.CAN);
+		assertEquals(world.squareStatus(5, 1), Square.EMPTY);
+		assertEquals(world.squareStatus(5, 2), Square.EMPTY);
+		assertEquals(world.squareStatus(10, 2), Square.WALL);
 	}
 	
 	private List<Integer> createMockedLocations() {
