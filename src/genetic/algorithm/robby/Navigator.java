@@ -16,7 +16,7 @@ public class Navigator {
 		this.robby = robby;
 	}
 	
-	public void makeNextMove() {
+	public void makeNextMove(Strategy strategy) {
 		int x = robby.getX();
 		int y = robby.getY();
 		Square north = world.squareStatus(x, (y-1));
@@ -24,7 +24,7 @@ public class Navigator {
 		Square east = world.squareStatus((x+1), y);
 		Square west = world.squareStatus((x-1), y);
 		Square current = world.squareStatus(x, y);
-		Move move = situationTable.getMove(north, south, east, west, current);
+		Move move = situationTable.getMove(strategy, north, south, east, west, current);
 		moveRobby(move);
 	}
 	

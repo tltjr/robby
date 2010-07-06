@@ -5,10 +5,10 @@ import genetic.algorithm.robby.World.Square;
 
 public class SituationTable {
 	
-	public Move getMove(Square north, Square south, Square east,
+	public Move getMove(Strategy strategy, Square north, Square south, Square east,
 			Square west, Square current) {
 		int index = convertSquaresToIndex(north, south, east, west, current);
-		return Strategies.CurrentStrategy.getMoves().get(index);
+		return strategy.getMoves().get(index);
 	}
 
 	// generate a unique index for all 243 (3^5) possible combinations of squares

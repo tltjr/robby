@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Cans {
 
-	private List<Integer> cans;
+	private List<Integer> locations;
 	private Random rand;
 	
 	public Cans() {
@@ -14,25 +14,34 @@ public class Cans {
 	}
 	
 	public List<Integer> locations() {
-		cans = new ArrayList<Integer>();
+		locations = new ArrayList<Integer>();
 		int i = 0;
 		while(i < 50) {
-			cans.add(nextUniqueRand());
+			locations.add(nextUniqueRand());
 			i++;
 		}
-		return cans;
+		return locations;
 	}
 
 	public Integer nextUniqueRand() {
 		int next = rand.nextInt(100);
-		while(cans.contains(next)) {
+		while(locations.contains(next)) {
 			next = rand.nextInt(100);
 		}
 		return next;
 	}
 
 	public void remove(int num) {
-		cans.remove(num);
+		locations.remove((Object) num);
 	}
+
+	public void setLocations(List<Integer> locations) {
+		this.locations = locations;
+	}
+	
+	public List<Integer> getLocations() {
+		return locations;
+	}
+	
 
 }
